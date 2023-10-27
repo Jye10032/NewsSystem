@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Layout, Button, theme, Dropdown } from 'antd'
-import { MenuUnfoldOutlined, MenuFoldOutlined, SmileOutlined, DownOutlined } from '@ant-design/icons'
+import { MenuUnfoldOutlined, MenuFoldOutlined, SmileOutlined, DownOutlined, UserOutlined } from '@ant-design/icons'
+import { Avatar, Space } from 'antd'
 const { Header } = Layout
 const items = [
     {
@@ -62,7 +63,7 @@ export default function TopHead() {
             <div style={{ float: "right" }}>
                 <span>欢迎admin回来</span>
                 <Dropdown menu={{ items, }}>
-                    <span>hover me</span>
+                    <Avatar size="large" icon={<UserOutlined />} />
                 </Dropdown>
             </div>
         </Header>

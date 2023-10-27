@@ -9,7 +9,9 @@ export default function indexRouter() {
 
         <Routes>
             <Route path="/login" element={<Login />} ></Route>
-            {/* <Route path="/  " element={<NewsSandBox />} ></Route> */}
+            {/* <Route path="/  " element={<NewsSandBox />} ></Route>
+                localStorage.setItem("token","kervin")
+                */}
             <Route path="/*" element={localStorage.getItem("token") ? <NewsSandBox /> : <Login />} />
         </Routes>
 
