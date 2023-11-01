@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Layout, Menu, theme } from 'antd'
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
     UserOutlined,
     VideoCameraOutlined,
@@ -55,6 +55,14 @@ const menuList = [
         ]
     },
 ];
+const iconList = {
+    "/home": <UserOutlined />,
+    "/user-manage/list": <VideoCameraOutlined />,
+    "/right-manage": <UploadOutlined />,
+    "/right-manage/role/list": <UserOutlined />,
+    "/right-manage/right/list": <UserOutlined />,
+    //...
+}
 export default function SideMenu() {
 
     const [meun, setMeun] = useState([])
@@ -65,17 +73,20 @@ export default function SideMenu() {
         })
 
     }, [])
+    const checkPagePermission = (item) => {
+        return item.pagepermisson === 1
+    }
     const renderMenu = (menuList) => {
         return menuList.map(item => {
-            if (item.children) {
+            if (item.children?.length > 0 && checkPagePermission(item)) {
                 return (
-                    <SubMenu key={item.key} icon={item.icon} title={item.title}>
+                    <SubMenu key={item.key} icon={iconList[item.key]} title={item.title}>
                         {renderMenu(item.children)}
                     </SubMenu>
                 )
             }
-            return (
-                <Menu.Item key={item.key} icon={item.icon} onClick={() => {
+            return checkPagePermission(item) && (
+                <Menu.Item key={item.key} icon={iconList[item.key]} onClick={() => {
                     //props.history.push(item.key)
                     nav(item.key)
                 }}>
@@ -89,21 +100,39 @@ export default function SideMenu() {
     const {
         token: { colorBgContainer },
     } = theme.useToken();
+
+
+
+    //跳转路径
     const nav = useNavigate();
+    //console.log(useLocation().pathname)
+
+    //选中的key
+    const selectKeys = [useLocation().pathname]
+
+    //展开列表的key
+    const openKeys = ["/" + useLocation().pathname.split("/")[1]]
+
     // const onClick = (menu) => {
     //     nav(menu.key)
     //     getItem(menu)
     // };
     return (
         <Sider trigger={null} collapsible collapsed={collapsed}>
-            <div className="demo-logo-vertical" >新闻发布管理系统</div>
-            <Menu
-                //onClick={onClick}
-                theme="dark"
-                mode="inline"
-                defaultSelectedKeys={['1']}>
-                {renderMenu(meun)}
-            </Menu>
+            <div style={{/*设置范围 滚动条*/ display: "flex", height: "100%", flexDirection: "column" }}>
+
+                <div className="demo-logo-vertical" >新闻发布管理系统</div>
+                <div style={{ flex: 1, "overflow": "auto" }}>
+                    <Menu
+                        //onClick={onClick}
+                        theme="dark"
+                        mode="inline"
+                        SelectedKeys={selectKeys}
+                        defalutOpenKeys={openKeys}>
+                        {renderMenu(meun)}
+                    </Menu>
+                </div>
+            </div>
         </Sider>
     )
 }
