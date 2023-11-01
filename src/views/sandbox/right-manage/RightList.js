@@ -76,14 +76,32 @@ export default function RightList() {
 
     //删除
     const deleteMethod = (item) => {//实现当前页面同步状态+后端同步删除
-        console.log("delete")
+        //console.log("delete")
+        if (item.grade === 1) {//如果是一级，直接删除
 
-        //遍历data，找到id相同的项，删除
-        setdataSoure(dataSource.filter(data => data.id !== item.id))
+            //遍历data，找到id相同的项，删除
+            setdataSoure(dataSource.filter(data => data.id !== item.id))
 
-        axios.delete(`http://localhost:8000/rights/${item.id}`).then(res => {
-            console.log(res.data)
-        })
+            axios.delete(`http://localhost:8000/rights/${item.id}`).then(res => {
+                //console.log(res.data)
+            })
+        } else {//否则，找到父级，删除父级的children中的项
+
+            //找到父级
+            let list = dataSource.filter(data => data.id === item.rightId)
+
+            //删除父级的children中的项
+            list[0].children = list[0].children.filter(data => data.id !== item.id)
+
+            //实现页面同步
+            setdataSoure([...dataSource])
+
+            //更新后端数据
+            axios.delete(`http://localhost:8000/children/${item.id}`).then(res => {
+                //console.log(res.data)
+            })
+        }
+
     }
 
     return (
