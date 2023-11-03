@@ -7,7 +7,7 @@ import axios from 'axios'
 const { confirm } = Modal;
 
 export default function RightList() {
-    const [dataSource, setdataSoure] = useState([])
+    const [dataSource, setdataSource] = useState([])
 
     useEffect(() => {
         axios.get("http://localhost:8000/rights?_embed=children").then(res => {
@@ -17,26 +17,12 @@ export default function RightList() {
                     item.children = ""
                 }
             })
-            setdataSoure(list)
+            setdataSource(list)
         })
     }, [])
 
     const [modal, contextHolder] = Modal.useModal();
 
-    const showConfirm = (item) => {
-        confirm({
-            title: 'Do you Want to delete these items?',
-            icon: <ExclamationCircleFilled />,
-            content: 'Some descriptions',
-            onOk() {
-                deleteMethod(item);
-                console.log('OK');
-            },
-            onCancel() {
-                console.log('Cancel');
-            },
-        });
-    };
 
 
 
@@ -82,7 +68,7 @@ export default function RightList() {
 
     const switchMethod = (item) => {
         item.pagepermisson = Number(!item.pagepermisson)
-        setdataSoure([...dataSource])
+        setdataSource([...dataSource])
         //console.log(item)
         if (item.grade === 1) {
             axios.patch(`http://localhost:8000/rights/${item.id}`, {
@@ -97,13 +83,30 @@ export default function RightList() {
         }
     }
 
+
+    const showConfirm = (item) => {
+        confirm({
+            title: 'Do you Want to delete these items?',
+            icon: <ExclamationCircleFilled />,
+            content: 'Some descriptions',
+            onOk() {
+                deleteMethod(item);
+                console.log('OK');
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
+    };
+
+
     //删除
     const deleteMethod = (item) => {//实现当前页面同步状态+后端同步删除
         //console.log("delete")
         if (item.grade === 1) {//如果是一级，直接删除
 
             //遍历data，找到id相同的项，删除
-            setdataSoure(dataSource.filter(data => data.id !== item.id))
+            setdataSource(dataSource.filter(data => data.id !== item.id))
 
             axios.delete(`http://localhost:8000/rights/${item.id}`).then(res => {
                 //console.log(res.data)
@@ -117,7 +120,7 @@ export default function RightList() {
             list[0].children = list[0].children.filter(data => data.id !== item.id)
 
             //实现页面同步
-            setdataSoure([...dataSource])
+            setdataSource([...dataSource])
 
             //更新后端数据
             axios.delete(`http://localhost:8000/children/${item.id}`).then(res => {

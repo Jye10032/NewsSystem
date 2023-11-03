@@ -127,8 +127,8 @@ export default function SideMenu() {
                         //onClick={onClick}
                         theme="dark"
                         mode="inline"
-                        SelectedKeys={selectKeys}
-                        defalutOpenKeys={openKeys}>
+                        defaultSelectedKeys={selectKeys}
+                        defaultOpenKeys={openKeys}>
                         {renderMenu(meun)}
                     </Menu>
                 </div>
