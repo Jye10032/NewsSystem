@@ -10,7 +10,7 @@
       "roleId": 1
     },
     {
-      "username": "铁锤",
+      "username": "铁",
       "password": "123",
       "roleState": true,
       "default": false,
@@ -89,6 +89,15 @@
       "roleState": true,
       "default": false,
       "id": 10
+    },
+    {
+      "username": "1",
+      "password": "1",
+      "region": "亚洲",
+      "roleId": 2,
+      "default": false,
+      "roleState": true,
+      "id": 11
     }
   ],
   "roles": [
