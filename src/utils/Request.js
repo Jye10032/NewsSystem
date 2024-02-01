@@ -3,6 +3,7 @@ import { store } from '../redux/store'
 /*
 * axios的二次封装
 * 1. 配置基础路径和超时限制
+* 
 */
 
 axios.defaults.baseURL = 'http://localhost:8000'

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Layout, Menu, theme } from 'antd'
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import {
     HomeOutlined,
     UserOutlined,
@@ -15,9 +16,19 @@ import {
 import './index.css'
 import axios from 'axios';
 import { render } from '@testing-library/react';
+
+/**
+ * SideMenu 组件，渲染一个侧边栏菜单。
+ * @returns {JSX.Element} SideMenu 渲染的 React 组件。
+ *
+ */
 const { SubMenu } = Menu
 
 const { Sider } = Layout
+/**
+ * @deprecated 未接入后端前的侧边栏
+ */
+
 // const items = [
 //     getItem('首页', '/home', <UserOutlined />),
 //     getItem('用户管理', '/user-manage', <VideoCameraOutlined />, [getItem('用户列表', 'user/manege/list')]),
@@ -60,6 +71,11 @@ const { Sider } = Layout
 //         ]
 //     },
 // ];
+
+/**
+ * 定义了各个菜单项对应的图标。
+ * @type {Object}
+ */
 const iconList = {
     '/home': <HomeOutlined />,
     '/user-manage': <UserOutlined />,
@@ -78,9 +94,21 @@ export default function SideMenu() {
         })
 
     }, [])
+
+    /**
+     * 检查一个菜单项是否有页面权限。
+     * @param {Object} item 要检查的菜单项。
+     * @returns {boolean} 如果菜单项有页面权限，则返回 true；否则返回 false。
+     */
     const checkPagePermission = (item) => {
         return item.pagepermisson === 1
     }
+
+    /**
+     * 渲染菜单。
+     * @param {Array} meun 要渲染的菜单数据。
+     * @returns {JSX.Element[]} 渲染的菜单元素数组。
+     */
     const renderMenu = (meun) => {
         return meun.map(item => {
             if (item.children?.length > 0 && checkPagePermission(item)) {
@@ -105,7 +133,9 @@ export default function SideMenu() {
     const {
         token: { colorBgContainer },
     } = theme.useToken();
-
+    //从redux store中获取侧边栏伸缩状态
+    const isCollapsible = useSelector(state => state.collapsible);
+    const navigate = useNavigate();
 
 
     //跳转路径
@@ -123,7 +153,7 @@ export default function SideMenu() {
     //     getItem(menu)
     // };
     return (
-        <Sider trigger={null} collapsible collapsed={collapsed}>
+        <Sider trigger={null} collapsible collapsed={isCollapsible}>
             <div style={{/*设置范围 滚动条*/ display: "flex", height: "100%", flexDirection: "column" }}>
 
                 <div className="demo-logo-vertical" >新闻发布管理系统</div>
@@ -142,6 +172,9 @@ export default function SideMenu() {
     )
 }
 
+/**
+ * @deprecated router5.x代码
+ */
 // function getItem(key, icon, children, label, type) {
 //     return {
 //         key,

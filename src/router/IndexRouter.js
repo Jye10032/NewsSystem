@@ -4,7 +4,10 @@ import Login from '../views/login/Login'
 import NewsSandBox from '../views/sandbox/NewsSandBox'
 import Detail from '../views/sandbox/news/Detail'
 import News from '../views/sandbox/news/News'
-
+/**
+ * 基础路由，在App.js中引入
+ * 
+ */
 export default function indexRouter() {
     return (
 
