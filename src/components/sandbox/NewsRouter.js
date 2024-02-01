@@ -74,7 +74,7 @@ function NewsRouter(props) {
             <Routes>
                 {backRouteList.map((item) => {
                     if (checkUserPermission(item.key) && checkRoute(item)) {
-                        console.log(item.key)
+                        //console.log(item.key)
                         return (
                             <Route
                                 path={item.key}

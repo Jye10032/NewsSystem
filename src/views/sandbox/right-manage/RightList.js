@@ -10,7 +10,7 @@ export default function RightList() {
     const [dataSource, setdataSource] = useState([])
 
     useEffect(() => {
-        axios.get("http://localhost:8000/rights?_embed=children").then(res => {
+        axios.get("/rights?_embed=children").then(res => {
             const list = res.data
             list.forEach(item => {
                 if (item.children.length === 0) {
@@ -71,12 +71,12 @@ export default function RightList() {
         setdataSource([...dataSource])
         //console.log(item)
         if (item.grade === 1) {
-            axios.patch(`http://localhost:8000/rights/${item.id}`, {
+            axios.patch(`/rights/${item.id}`, {
                 pagepermisson: item.pagepermisson
                 //console.log(res.data)
             })
         } else {
-            axios.patch(`http://localhost:8000/children/${item.id}`, {
+            axios.patch(`/children/${item.id}`, {
                 pagepermisson: item.pagepermisson
                 //console.log(res.data)
             })
@@ -108,7 +108,7 @@ export default function RightList() {
             //遍历data，找到id相同的项，删除
             setdataSource(dataSource.filter(data => data.id !== item.id))
 
-            axios.delete(`http://localhost:8000/rights/${item.id}`).then(res => {
+            axios.delete(`/rights/${item.id}`).then(res => {
                 //console.log(res.data)
             })
         } else {//否则，找到父级，删除父级的children中的项
@@ -123,7 +123,7 @@ export default function RightList() {
             setdataSource([...dataSource])
 
             //更新后端数据
-            axios.delete(`http://localhost:8000/children/${item.id}`).then(res => {
+            axios.delete(`/children/${item.id}`).then(res => {
                 //console.log(res.data)
             })
         }
