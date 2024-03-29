@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom';
 import { PageHeader } from '@ant-design/pro-layout'
 import { Descriptions } from 'antd'
 import axios from 'axios'
@@ -8,18 +9,20 @@ export default function NewsPreivew(props) {
   const auditList = ['未审核', '审核中', '已通过', '未通过']
   const publishList = ['未发布', '待发布', '已上线', '已下线']
   const colorList = ['black', 'orange', 'green', 'red']
-  const [newsInfo, setNewsInfo] = useState(null)
+  const [newsInfo, setNewsInfo] = useState(null);
+  const navigate = useNavigate();
+  const params = useParams();
   useEffect(() => {
-    axios.get(`/news/${props.match.params.id}?_expand=category&_expand=role`).then((res) => {
+    axios.get(`/news/${params.id}?_expand=category&_expand=role`).then((res) => {
       setNewsInfo(res.data)
     })
-  }, [props.match.params.id])
+  }, [params.id])
   return (
     <div>
       {newsInfo && (
         <div>
           <PageHeader
-            onBack={() => window.history.back()}
+            onBack={() => navigate(-1)}
             title={newsInfo.title}
             subTitle={newsInfo.category.title}
           >

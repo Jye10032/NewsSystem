@@ -1,6 +1,6 @@
 import style from './NewsAdd.module.scss'
 import NewsEditor from '../../../components/news-mange/NewsEditor'
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useParams } from 'react'
 import { PageHeader } from '@ant-design/pro-layout'
 import { Steps, Button, Form, Input, Select, message, notification } from 'antd'
 import axios from 'axios'
@@ -11,11 +11,12 @@ export default function NewsUpdate(props) {
   const [content, setContent] = useState('')
   const [formInfo, setFormInfo] = useState({})
   const [categoryList, setCategoryList] = useState([])
-  const NewsForm = useRef()
+  const NewsForm = useRef();
+  const params = useParams();
   const userInfo = JSON.parse(localStorage.getItem('token'))
   useEffect(() => {
     axios.get('/categories').then((res) => setCategoryList(res.data))
-    axios.get(`/news/${props.match.params.id}?_expand=category&_expand=role`).then((res) => {
+    axios.get(`/news/${params.id}?_expand=category&_expand=role`).then((res) => {
       setContent(res.data.content)
       const { title, categoryId } = res.data
       NewsForm.current.setFieldsValue({
@@ -23,7 +24,7 @@ export default function NewsUpdate(props) {
         categoryId
       })
     })
-  }, [props.match.params.id])
+  }, [params.id])
   function handlerNext() {
     if (current === 0) {
       NewsForm.current
