@@ -32,7 +32,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently \"npm run server\" \"react-scripts start\"",
     "server": "json-server --watch db/db.json --port 8000",
     "dev": "concurrently \"npm start\" \"npm run server\"",
     "build": "react-scripts build",
