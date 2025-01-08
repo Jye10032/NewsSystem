@@ -166,6 +166,7 @@ export default function Login() {
                 if (res.data.length === 0) {
                     return message.error('用户名或密码错误')
                 } else {
+                    console.log(res.data[0]);
                     localStorage.setItem('token', JSON.stringify(res.data[0]))
                     nav('/home', { replace: true })
                     return message.success('登录成功')

@@ -1,10 +1,10 @@
-import { legacy_createStore as createStore, applyMiddleware, combineReducers } from 'redux'
-import { persistStore, persistReducer } from 'redux-persist'
-import thunk from 'redux-thunk'
+import { legacy_createStore as createStore, applyMiddleware, combineReducers } from 'redux';
+import { persistStore, persistReducer } from 'redux-persist';
+import { thunk } from 'redux-thunk';
 import storage from 'redux-persist/lib/storage'
 import collapsible from './reducers/CollapsedReducer'
 import isLoding from './reducers/LoadingReducer'
-// import { configureStore } from '@reduxjs/toolkit';
+//import { configureStore } from '@reduxjs/toolkit';
 
 const persistConfig = {
   key: 'root',
@@ -19,7 +19,7 @@ const AllReducers = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, AllReducers)
 
-const store = createStore(persistedReducer, applyMiddleware(thunk))
+const store = createStore(persistedReducer, applyMiddleware(thunk));
 
 
 // const store = configureStore({
